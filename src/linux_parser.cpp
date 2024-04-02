@@ -68,7 +68,7 @@ vector<int> LinuxParser::Pids() {
 
 float LinuxParser::MemoryUtilization()
 {
-  float memTotal, memFree;
+  float memTotal, memFree, buffers;
   string line, key, value;
   std::ifstream filestream(kProcDirectory + kMeminfoFilename);
   if (filestream.is_open())
@@ -87,17 +87,36 @@ float LinuxParser::MemoryUtilization()
         else if (key == "MemFree")
         {
           memFree = std::stof(value);
+          continue;
+        }
+        else if (key == "Buffers")
+        {
+          buffers = std::stof(value);
           break;
         }
       }
-      if (memTotal!=0 && memFree!=0) break;
+      if (memTotal!=0 && memFree!=0 && buffers!=0) break;
     }
   }
-  return memTotal-memFree;
+  return (memTotal-memFree)/memTotal;
 }
 
-// TODO: Read and return the system uptime
-long LinuxParser::UpTime() { return 0; }
+long LinuxParser::UpTime()
+{
+  string line;
+  string value;
+  std::ifstream stream(kProcDirectory + kUptimeFilename);
+  if (stream.is_open())
+  {
+    std::getline(stream, line);
+    std::istringstream stream(line);
+    if(stream>>value)
+    {
+      return std::stol(value);
+    }
+  }
+  return 0;
+}
 
 // TODO: Read and return the number of jiffies for the system
 long LinuxParser::Jiffies() { return 0; }
@@ -176,4 +195,7 @@ string LinuxParser::User(int pid[[maybe_unused]]) { return string(); }
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
+long LinuxParser::UpTime(int pid[[maybe_unused]])
+{
+  return 0;
+}
