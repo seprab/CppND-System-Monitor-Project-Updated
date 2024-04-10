@@ -3,7 +3,9 @@
 
 float Processor::Utilization()
 {
+  float utilization{0};
   auto totalJiffies = LinuxParser::Jiffies();
   auto activeJiffies = LinuxParser::ActiveJiffies();
-  return activeJiffies / totalJiffies;
+  utilization = activeJiffies / totalJiffies;
+  return utilization;
 }

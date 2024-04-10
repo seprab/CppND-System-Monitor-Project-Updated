@@ -140,18 +140,17 @@ long LinuxParser::IdleJiffies()
 vector<string> LinuxParser::CpuUtilization()
 {
   string line, user, nice, system, idle, iowait, irq, softirq, steal,
-      guest, guest_nice;
+      guest, guest_nice, title;
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open())
   {
-      std::istringstream linestream(line);
-      if(linestream >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal >> guest >> guest_nice)
-      {
-        std::vector<std::string> elements{
-          user, nice, system, idle, iowait, irq, softirq, steal,
-              guest, guest_nice};
-        return elements;
-      }
+    std::getline(filestream, line);
+    std::istringstream linestream(line);
+    if(linestream >> title >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal >> guest >> guest_nice)
+    {
+      std::vector<std::string> elements{user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice};
+      return elements;
+    }
   }
   return {};
 }
