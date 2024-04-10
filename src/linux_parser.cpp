@@ -250,7 +250,7 @@ string LinuxParser::Ram(int pid)
       }
     }
   }
-  return 0;
+  return "0";
 }
 
 string LinuxParser::Uid(int pid)
