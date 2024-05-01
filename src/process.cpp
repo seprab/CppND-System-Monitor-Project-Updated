@@ -24,7 +24,7 @@ float Process::CpuUtilization()
 {
   auto activeJiffies = LinuxParser::ActiveJiffies(_pid);
   auto upTime = LinuxParser::UpTime(_pid);
-  return activeJiffies/upTime;
+  return (activeJiffies/upTime)/100.f;
 }
 
 string Process::Command()
