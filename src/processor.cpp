@@ -6,6 +6,6 @@ float Processor::Utilization()
   float utilization{0};
   auto totalJiffies = LinuxParser::Jiffies();
   auto activeJiffies = LinuxParser::ActiveJiffies();
-  utilization = activeJiffies / totalJiffies;
+  utilization = static_cast<float>(activeJiffies) / totalJiffies;
   return utilization;
 }
