@@ -91,7 +91,6 @@ float LinuxParser::MemoryUtilization()
           break;
         }
       }
-      if (memTotal!=0 && memFree!=0 && buffers!=0) break;
     }
   }
   return (memTotal-memFree)/memTotal;
